@@ -1,7 +1,14 @@
+import java.util.Scanner;
+
 public class Lab01_Q3{
     public static void main(String[] args) {
-        int kilogramsToLose = 1;
-        int daysToLose = 7;
+        Scanner Scanner = new Scanner(System.in);
+
+        System.out.print("How Many Kilograms Would You Like To Lose? 8");
+        int kilogramsToLose = Scanner.nextInt();
+        System.out.print("How Many Days You Want It To Take? ");
+        int daysToLose = Scanner.nextInt();
+        
         int maintenanceCalories = 2000;
         int totalCaloriesForOneKG = 7700;
 
@@ -29,7 +36,7 @@ public class Lab01_Q3{
         int proteinCalories = (int)(dailyCaloricIntake * proteinPercent);
 
         System.out.println("Kilograms to lose: " + kilogramsToLose);
-        System.out.println("Days to lose: " + daysToLose);
+        System.out.println("Days to lose " + kilogramsToLose + ": " + daysToLose);
         System.out.println("To lose " + kilogramsToLose + " kilograms in " + daysToLose + " days you will need a daily deficit of " + deficitPerDays + " calories");
         System.out.println("RECOMMENDED DAILY CALORIES TO LOSE " + kilogramsToLose + " KILOS IN " + daysToLose + " DAYS: " + dailyCaloricIntake);
         System.out.printf("%-20s %20s %20s %25s %20s%n" , "MACRO" , "RECOMMENDED PERCENT", "CALORIES PER GRAM", "RECOMMENDED CALORIES", "GRAMS");
