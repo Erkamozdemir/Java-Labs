@@ -1,6 +1,6 @@
 
 /*
-* This program calculates and displays two objects corresponding weights at 4 altitudes.
+* This program changes the inputs format using string methods.
 * 
 * @author Erkam Özdemir 22403374
 * 
