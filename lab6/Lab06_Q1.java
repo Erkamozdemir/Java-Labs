@@ -9,7 +9,7 @@ package lab6;
 
 import java.util.Scanner;
 
-public class Lab06_Q1 {
+public class Lab06_Q1_Revision {
     // To create the first stage of the theater hall
     public static void arrayFill(String[][] seats) {
         String empty = "-";
@@ -21,11 +21,47 @@ public class Lab06_Q1 {
         }
     }
 
-    // To print the array
-    public static void arrayPrint(String[][] seats) {
+    public static int[] full(String[][] seats, String places) {
+        int[] index;
+        if (places.equals(null) || places.equals(" ")) {
+            index = new int[0];
+        } else {
+            String[] parts = places.split(",");
+            index = new int[parts.length];
+            for (int i = 0; i < parts.length; i++) {
+                index[i] = Integer.parseInt(parts[i].trim());
+            }
+        }
+        return index;
+    }
+
+    public static boolean[] canPlace(String[][] seats, int[] groupSizes) {
+        int count = 0;
+        boolean[] canPlace = new boolean[seats.length];
         for (int i = 0; i < seats.length; i++) {
             for (int j = 0; j < seats[0].length; j++) {
-                System.out.print(seats[i][j]);
+                if (seats[i][j].equals("-")) {
+                    count++;
+                }
+            }
+            if (count >= groupSizes[i]) {
+                canPlace[i] = true;
+            }
+        }
+        return canPlace;
+    }
+
+    // To print the array
+    public static void arrayPrint(String[][] seats) {
+        System.out.print("     ");
+        for (int i = 0; i < seats[0].length; i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        for (int i = 0; i < seats.length; i++) {
+            System.out.print("Row " + i + ": ");
+            for (int j = 0; j < seats[0].length; j++) {
+                System.out.print(seats[i][j] + "");
             }
             System.out.println();
         }
@@ -45,35 +81,54 @@ public class Lab06_Q1 {
     }
 
     // To create the final theater hall after the seats have been placed
-    public static void optimizedDistanceArray(String[][] seats, int[] groupSizes, int rows, int column) {
-        String full = "x";
-        for (int i = 0; i < seats.length; i++) {
-            if (groupSizes[i] > 0) {
-                if (groupSizes[i] == 1) {
-                    seats[i][0] = full;
-                } else {
-                    // Calculate the gap and the remainder according to the algorithm
-                    int gap = (column - 1) / (groupSizes[i] - 1);
-                    int remainder = (column - 1) % (groupSizes[i] - 1);
-                    int place = 0;
-                    // First seat is always full if the person count is greater than 0
-                    seats[i][0] = full;
-                    // We already sat the first person
-                    int seatedPeople = 1;
-                    while (seatedPeople < groupSizes[i]) {
-                        // Check if it is a big gap or a small one
-                        if (seatedPeople <= remainder) {
-                            place += (gap + 1);
-                        } else {
-                            place += gap;
-                        }
-                        seats[i][place] = full;
-                        seatedPeople++;
+    public static void centeredHall(String[][] seats, int[] groupSizes, boolean canPlace, int i) {
+        double bestDistance = 1000000;
+        double center = (seats[0].length - 1) / 2.0;
+        int bestStart = -1;
+
+        if (!canPlace) {
+            System.out
+                    .println("Row " + (i + 1) + ": cannot place group of " + groupSizes[i] + " due to blocked seats.");
+        } else {
+            int start = 0;
+            while (start < seats[0].length - groupSizes[i]) {
+                boolean ok = true;
+                int j = 0;
+                while (j < j + groupSizes[i] && ok) {
+                    if (seats[i][j].equals("#")) {
+                        ok = false;
                     }
+                    j = j + 1;
                 }
+                if (ok) {
+                    double segmentCenter = start + (groupSizes[i] / 2.0);
+                    if (center - segmentCenter < 0) {
+                        double distance = center - segmentCenter;
+                        double distanceAbs = Math.abs(center - segmentCenter);
+                        if (distanceAbs < bestDistance) {
+                            bestDistance = distance;
+                            bestStart = start;
+                        }
+                    } else {
+                        double distance = center - segmentCenter;
+                        if (distance < Math.abs(bestDistance)) {
+                            bestDistance = distance;
+                            bestStart = start;
+                        }
+                    }
+
+                }
+                start++;
             }
         }
-        arrayPrint(seats);
+        if (bestStart != -1) {
+            for (int h = bestStart; h < bestStart + groupSizes[i]; h++) {
+                seats[i][h] = "x";
+            }
+        } else {
+            System.out.println("Row " + (i + 1) + ": cannot place group of " + groupSizes[i] + " due to blocked seats.");
+        }
+
     }
 
     public static void main(String[] args) {
@@ -94,7 +149,7 @@ public class Lab06_Q1 {
         // commas
         String groups = in.nextLine();
         // Split the text and put them in an array
-        String[] parts = groups.split(", ");
+        String[] parts = groups.split(",");
         int[] groupSizes = new int[parts.length];
         for (int i = 0; i < parts.length; i++) {
             // Get the values of the numbers using 'parseInt' and then put them in the
@@ -107,11 +162,28 @@ public class Lab06_Q1 {
         } else if (groupSizes.length == row) {
             boolean isFitting = columnCheck(column, groupSizes);
             if (isFitting) {
-                optimizedDistanceArray(seats, groupSizes, row, column);
+                for (int i = 0; i < seats.length; i++) {
+                    System.out.print(
+                            "Enter blocked seat indices for row " + (i + 1) + " (comma-separated, or empty): ");
+                    String places = in.nextLine();
+                    int[] index = full(seats, places);
+                    for (int j = 0; j < column; j++) {
+                        for (int h = 0; h < index.length; h++) {
+                            if (index[h] == j) {
+                                seats[i][j] = "#";
+                            }
+                        }
+                    }
+                }
+                boolean[] canPlace = canPlace(seats, groupSizes);
+                for (int i = 0; i < seats.length; i++) {
+                    centeredHall(seats, groupSizes, canPlace[i], i);
+                }
+                arrayPrint(seats);
             }
+            in.close();
+
         }
-        in.close();
 
     }
-
 }
