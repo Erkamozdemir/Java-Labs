@@ -59,7 +59,7 @@ public class Lab06_Q1_Revision {
         }
         System.out.println();
         for (int i = 0; i < seats.length; i++) {
-            System.out.print("Row " + i + ": ");
+            System.out.print("Row " + (i + 1) + ": ");
             for (int j = 0; j < seats[0].length; j++) {
                 System.out.print(seats[i][j] + "");
             }
@@ -91,10 +91,10 @@ public class Lab06_Q1_Revision {
                     .println("Row " + (i + 1) + ": cannot place group of " + groupSizes[i] + " due to blocked seats.");
         } else {
             int start = 0;
-            while (start < seats[0].length - groupSizes[i]) {
+            while (start <= seats[0].length - groupSizes[i]) {
                 boolean ok = true;
-                int j = 0;
-                while (j < j + groupSizes[i] && ok) {
+                int j = start;
+                while (j < seats[0].length && j <= j + groupSizes[i] && ok) {
                     if (seats[i][j].equals("#")) {
                         ok = false;
                     }
