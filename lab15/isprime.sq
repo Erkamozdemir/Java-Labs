@@ -1,0 +1,74 @@
+# Checks if the given number is a prime number
+
+GET Enter a number to check if it is a prime: # target number
+
+# add 2 into queue
+# after this, we should have:
+# stack: [primeNumber] queue: [divisor]
+PUSH 2
+STORE
+POP
+
+# Check if divisor >= primeNumber
+# duplicate the prime number, subtract divisor
+DUP
+FRONT
+SUB
+
+# add 1
+PUSH 1
+ADD
+
+# if (divisor - primeNumber + 1) is a positive number then 
+# primeNumber is a prime number. jump to end
+JUMPIFPOS 15
+
+# Remove the old (divisor - primeNumber + 1) from stack 
+# after this, we should have:
+# stack: [primeNumber] queue: [divisor]
+POP
+
+# duplicate the primeNumber stack: [primeNumber, currentNumber]
+# where currentNumber is initialized as primeNumber
+DUP
+
+# Subtract 1 until currentNumber <= 0
+# This is equilavent of doing calculating mod 
+# If currentNumber % divisor == 0 then it will return 0
+# Otherwise it will return (currentNumber % divisor) - divisor
+FRONT
+SWAP
+SUB
+JUMPIFPOS -4
+
+# If the currentNumber == 0, there is a divisor so
+# number is not prime. JUMP to end
+JUMPIFNZ 1
+JUMP 11
+
+# pop the currentNumber
+POP
+
+# Increment the divisor
+# after this, we should have:
+# stack: [primeNumber] queue: [divisor + 1]
+LOAD
+PUSH 1
+ADD
+STORE
+POP
+
+# Jump back to divisor >= primeNumber check
+JUMP -21
+
+# Exit conditions
+POP
+PRINT
+PRINTTEXT is a prime number
+JUMP 3 # exit
+
+POP
+PRINT
+PRINTTEXT is not a prime number
+
+

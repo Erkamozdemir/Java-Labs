@@ -1,0 +1,60 @@
+# SQ program to test REPEAT, ENDREPEAT
+# Prints:
+# Single repeat:
+# 2 4 8 16 
+# Nested repeats: This should print 6 HELLO
+# HELLO
+# HELLO
+# HELLO
+# HELLO
+# HELLO
+# HELLO
+# 
+# Nested repeats:
+# 1 2 3 
+# 4 5 6 
+# 10 11 12 
+# 22 23 24 
+
+# print 2 4 8 16 
+PRINTTEXT Single repeat:
+PUSH 2
+REPEAT 4
+PRINT
+DUP
+ADD
+ENDREPEAT
+POP
+
+PRINTTEXT # newline
+
+
+PRINTTEXT Nested repeats: This should print 6 HELLO
+REPEAT 2
+REPEAT 3
+PRINTTEXT HELLO
+ENDREPEAT
+ENDREPEAT
+PRINTTEXT # newline
+
+# Check nested repeats
+# prints:
+# 1 2 3 
+# 4 5 6 
+# 10 11 12 
+# 22 23 24 
+PUSH 0
+
+PRINTTEXT Nested repeats:
+REPEAT 4
+
+DUP
+REPEAT 3 
+PUSH 1
+ADD
+PRINT
+ENDREPEAT # repeat 3
+PRINTTEXT # put newline
+
+ADD
+ENDREPEAT # repeat 4

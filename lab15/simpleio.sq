@@ -1,0 +1,12 @@
+# Simple SQ program to test the IO operations
+
+GET Please enter a number:
+
+PRINT
+PRINTTEXT entered 
+
+DUP
+ADD 
+
+PRINTTEXT Double of that number is:
+PRINT

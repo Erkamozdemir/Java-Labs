@@ -1,0 +1,16 @@
+# A simple SQ program to test the jumps
+
+PUSH 10
+JUMPIFNZ 1 # 10 is not 0 so jump 1 instruction forward
+PRINT      # this should not be executed
+PRINT      # this should be executed
+
+PRINTTEXT # newline
+
+# prints numbers from 10 to 0
+PRINT 
+PUSH -1
+ADD
+JUMPIFPOS -4 # note that when the jump amount is negative you need to include the jump instruction itself (-4 instead of -3)
+
+PRINT # This should print 0

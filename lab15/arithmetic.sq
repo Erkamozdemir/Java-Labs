@@ -1,0 +1,13 @@
+# A simple SQ program to test the arithmetic operations
+
+# Push 4 and 6 to the stack
+PUSH 4
+PUSH 6
+
+# Remove 4 and 6 from the stack, sum them, and push the result (10) to the stack
+ADD
+PRINT  # This should print 10
+
+PUSH 2 # Push 2 to the stack. The stack now contains 10 and 2
+SUB    # Subtract 2 - 10
+PRINT  # This should print -8

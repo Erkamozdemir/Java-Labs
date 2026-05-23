@@ -1,0 +1,30 @@
+# SQ program to print fibonacci sequence
+
+GET How many fibnoacci sequence to print:
+
+# push 0 and 1 to queue
+PUSH 0
+STORE
+POP
+
+PUSH 1
+STORE
+POP
+
+# Start of the loop:
+# Load prev next
+LOAD
+LOAD
+
+STORE   # save next to queue
+ADD     # next + prev
+PRINT   # print
+
+STORE   # add the (next + prev) into queue
+POP
+
+# stack now should only contain the number of values to print
+# decrement the value by 1 and jump if it is greater than 0
+PUSH -1
+ADD
+JUMPIFPOS -10 # go back to start of the loop

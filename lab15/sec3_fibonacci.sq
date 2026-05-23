@@ -1,0 +1,27 @@
+# SQ program to print fibonacci sequence
+
+PRINTTEXT First 10 fibonacci numbers:
+
+# push 0 and 1 to queue
+PUSH 0
+STORE
+POP
+
+PUSH 1
+STORE
+POP
+
+REPEAT 10
+
+# Load prev next
+LOAD
+LOAD
+
+STORE   # save next to queue
+ADD     # next + prev
+PRINT   # print
+
+STORE   # add the (next + prev) into queue
+POP
+
+ENDREPEAT

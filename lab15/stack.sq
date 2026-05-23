@@ -1,0 +1,13 @@
+# Simple SQ program to test stack
+# Program should print:
+# 5 6 12
+
+PUSH 6
+PUSH 5
+PRINT # print 5
+POP
+PRINT # print 6
+
+DUP   # duplicate 6
+ADD 
+PRINT # should print 12
